@@ -1,9 +1,14 @@
 import React from "react";
 
-function Catalogo() {
+function Catalogo({ cambiarFondo }) {
   return (
     <section id="panel-principal" className="panel visible active">
-      <h2>Catalogo de Videojuegos</h2>
+      <h2>Catálogo de Videojuegos</h2>
+
+      <button onClick={cambiarFondo} className="boton-fondo">
+        Cambiar Fondo
+      </button>
+
       <div className="card-juego">
         <h2>ARK</h2>
         <img src="ark.jpg" alt="ark" />

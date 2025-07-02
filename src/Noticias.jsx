@@ -1,13 +1,14 @@
-// Noticias.jsx
 import React from "react";
 
 function Noticias() {
   return (
+    // Sección principal con ID para estilos y manejo específico
     <section id="panel-noticias" className="panel">
       <h2>Noticias Recientes de Videojuegos</h2>
 
+      {/* Tarjeta individual de noticia */}
       <div className="tarjeta-noticia">
-        <img src="elden.jpg" alt="Elden Ring DLC" />
+        <img src="./elden.jpg" alt="Elden Ring DLC" />
         <h3>Elden Ring anuncia su esperado DLC</h3>
         <p>
           FromSoftware revela 'Shadow of the Erdtree', una nueva expansión con nuevas zonas y jefes para Elden Ring. Disponible el próximo mes.
@@ -23,7 +24,7 @@ function Noticias() {
       </div>
 
       <div className="tarjeta-noticia">
-        <img src="zelda.jpg" alt="Zelda nuevo juego" />
+        <img src="Zelda.jpg" alt="Zelda nuevo juego" />
         <h3>Nintendo trabaja en un nuevo Zelda en 2D</h3>
         <p>
           Según rumores, Nintendo estaría desarrollando una entrega clásica estilo A Link to the Past para Nintendo Switch 2.
