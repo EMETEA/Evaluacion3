@@ -1,8 +1,10 @@
-/* Reset y estructura base */
+
+/* Aplicar box-sizing border-box a todos los elementos para mejor manejo de tamaños */
 * {
   box-sizing: border-box;
 }
 
+/* Ajustes generales para ocupar todo el alto de la pantalla */
 html, body, #root, .app {
   height: 100%;
   min-height: 100%;
@@ -13,7 +15,7 @@ html, body, #root, .app {
   color: #fff;
 }
 
-/* Fondos dinámicos */
+/* Configuración compartida de fondo para las clases dinámicas */
 .app.fondo1,
 .app.fondo2 {
   background-size: cover;
@@ -22,16 +24,17 @@ html, body, #root, .app {
   background-attachment: fixed;
 }
 
-/* Fondo específico */
+/* Fondo principal */
 .app.fondo1 {
   background-image: url('fondo.jpg');
 }
 
+/* Fondo alternativo */
 .app.fondo2 {
   background-image: url('Fondo2.jpg');
 }
 
-/* Botón de cambio de fondo */
+/* BOTÓN PARA CAMBIAR FONDO */
 .boton-fondo {
   padding: 10px 20px;
   margin-bottom: 20px;
@@ -47,7 +50,7 @@ html, body, #root, .app {
   background-color: #555;
 }
 
-/* Navegación */
+/* NAVEGACIÓN PRINCIPAL (Navbar) */
 nav {
   background-color: #000;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -84,7 +87,7 @@ nav a:focus {
   outline: none;
 }
 
-/* Contenedor principal */
+/* CONTENEDOR PRINCIPAL SPA */
 #contenedor-principal {
   max-width: 700px;
   margin: 3em auto;
@@ -94,7 +97,7 @@ nav a:focus {
   box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
-/* Catálogo de juegos */
+/* CATÁLOGO DE VIDEOJUEGOS */
 .card-juego {
   background: #ffffffcc;
   color: #000;
@@ -119,7 +122,7 @@ nav a:focus {
   margin-top: 1em;
 }
 
-/* Sobre Nosotros */
+/* SECCIÓN SOBRE NOSOTROS */
 .contenido-sobre {
   background-color: rgba(255, 255, 255, 0.9);
   padding: 2em;
@@ -128,6 +131,7 @@ nav a:focus {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   text-align: center;
 }
+
 .contenido-sobre img {
   max-width: 100%;
   height: auto;
@@ -136,7 +140,6 @@ nav a:focus {
   margin-bottom: 1.5em;
   object-fit: contain; 
 }
-
 
 .contenido-sobre h2 {
   color: #111;
@@ -147,7 +150,7 @@ nav a:focus {
   line-height: 1.6;
 }
 
-/* Contacto */
+/* FORMULARIO DE CONTACTO */
 #panel-comunicacion {
   background-color: rgba(20, 20, 20, 0.8);
   color: #f2f2f2;
@@ -164,6 +167,7 @@ nav a:focus {
   color: #00ffcc;
 }
 
+/* Estilos del formulario */
 #formulario-contacto {
   display: flex;
   flex-direction: column;
@@ -181,6 +185,7 @@ nav a:focus {
   color: #fff;
 }
 
+/* Campo de fecha (solo lectura) */
 #formulario-contacto input[readonly] {
   background-color: #444;
   cursor: not-allowed;
@@ -202,6 +207,7 @@ nav a:focus {
   color: #fff;
 }
 
+/* Mensaje de éxito después de enviar formulario */
 .mensaje-exito {
   background-color: #009f8a;
   color: white;
@@ -213,7 +219,7 @@ nav a:focus {
   display: none;
 }
 
-/* Tabla de mensajes */
+/* TABLA DE MENSAJES EN CONTACTO */
 #tabla-mensajes {
   margin-top: 2em;
   width: 100%;
@@ -237,7 +243,7 @@ nav a:focus {
   color: #000;
 }
 
-/* Noticias */
+/* NOTICIAS */
 .tarjeta-noticia {
   background-color: rgba(255, 255, 255, 0.9);
   color: #222;
@@ -259,7 +265,7 @@ nav a:focus {
   border-radius: 8px;
 }
 
-/* GOTY */
+/* SECCIÓN GOTY*/
 .contenedor-crud {
   max-width: 450px;
   margin: 2em auto;
@@ -312,6 +318,7 @@ nav a:focus {
   color: #fff;
 }
 
+/* Lista de juegos con acciones */
 .lista-juegos {
   list-style: none;
   padding: 0;
@@ -347,7 +354,7 @@ nav a:focus {
   color: #000;
 }
 
-/* Responsivo */
+/* RESPONSIVIDAD*/
 @media (max-width: 768px) {
   nav ul {
     flex-direction: column;
@@ -382,4 +389,3 @@ nav a:focus {
     margin: 0.5em 0 0 0;
   }
 }
-

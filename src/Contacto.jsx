@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 function Contacto() {
+  // Estado para almacenar los mensajes enviados
   const [mensajes, setMensajes] = useState([]);
+  // Estado para mostrar el mensaje de éxito al enviar
   const [mostrarExito, setMostrarExito] = useState(false);
+  // Estado para manejar los valores del formulario
   const [form, setForm] = useState({
     nickname: "",
     email: "",
@@ -13,7 +16,7 @@ function Contacto() {
     fecha: ""
   });
 
-  // Función para obtener fecha actual
+  // Función para obtener la fecha actual en formato yyyy-mm-dd
   const obtenerFechaActual = () => {
     const hoy = new Date();
     const yyyy = hoy.getFullYear();
@@ -22,23 +25,24 @@ function Contacto() {
     return `${yyyy}-${mm}-${dd}`;
   };
 
-  // Al cargar el componente, establecer la fecha actual
+  // useEffect para establecer la fecha actual en el formulario al montar el componente
+  // y para cargar mensajes previamente guardados en localStorage
   useEffect(() => {
     setForm(prev => ({ ...prev, fecha: obtenerFechaActual() }));
 
-    // También cargar mensajes guardados en localStorage, si quieres persistencia
     const mensajesGuardados = localStorage.getItem('mensajes');
     if (mensajesGuardados) {
       setMensajes(JSON.parse(mensajesGuardados));
     }
   }, []);
 
-  // Guardar mensajes en localStorage cuando cambian
+  // useEffect para guardar los mensajes en localStorage cada vez que cambian
   useEffect(() => {
     localStorage.setItem('mensajes', JSON.stringify(mensajes));
   }, [mensajes]);
 
-  // Manejar cambios en los campos del formulario
+  // Maneja cambios en cualquier campo del formulario
+  // Actualiza el estado form según el campo modificado
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm(prev => ({
@@ -47,30 +51,32 @@ function Contacto() {
     }));
   };
 
-  // Manejar envío del formulario
+  // Función que maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const { nickname, email, plataforma, edad, terminos, mensaje, fecha } = form;
 
-    // Validaciones
+    // Validaciones básicas para campos obligatorios
     if (!nickname.trim() || !email.trim() || !plataforma || !mensaje.trim() || !edad.trim()) {
       alert('Por favor, completa todos los campos obligatorios.');
       return;
     }
 
+    // Validación de edad
     const edadNum = Number(edad);
     if (isNaN(edadNum) || edadNum < 1 || edadNum > 120) {
       alert('Por favor, ingresa una edad válida entre 1 y 120.');
       return;
     }
 
+    // Validación de aceptación de términos
     if (!terminos) {
       alert('Debes aceptar los términos y condiciones.');
       return;
     }
 
-    // Crear nuevo mensaje
+    // Crear un nuevo objeto mensaje con los datos validados
     const nuevoMensaje = {
       nickname: nickname.trim(),
       email: email.trim(),
@@ -80,17 +86,17 @@ function Contacto() {
       fecha
     };
 
-    // Agregar mensaje a la lista
+    // Agregar el nuevo mensaje al estado mensajes
     setMensajes(prev => [...prev, nuevoMensaje]);
     console.log(nuevoMensaje);
 
-    // Mostrar mensaje de éxito
+    // Mostrar mensaje de éxito por 3 segundos
     setMostrarExito(true);
     setTimeout(() => {
       setMostrarExito(false);
     }, 3000);
 
-    // Limpiar formulario
+    // Limpiar el formulario y actualizar la fecha al día actual
     setForm({
       nickname: "",
       email: "",
@@ -107,6 +113,7 @@ function Contacto() {
       <h2>¡Contáctanos!</h2>
       <p>¿Tienes alguna sugerencia, bug que reportar o quieres colaborar con nosotros? ¡Escríbenos!</p>
       
+      {/* Formulario de contacto con sus campos y eventos */}
       <form id="formulario-contacto" onSubmit={handleSubmit}>
         <label htmlFor="nickname">Tu Nickname Gamer:</label>
         <input
@@ -195,12 +202,14 @@ function Contacto() {
         <button type="submit">Enviar mensaje</button>
       </form>
 
+      {/* Mensaje de éxito mostrado tras enviar el formulario */}
       {mostrarExito && (
         <div className="mensaje-exito" style={{ display: 'block' }}>
           ¡Mensaje enviado correctamente!
         </div>
       )}
 
+      {/* Tabla que muestra los mensajes enviados almacenados */}
       <table id="tabla-mensajes">
         <thead>
           <tr>
