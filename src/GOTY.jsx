@@ -1,75 +1,68 @@
 import React, { useState, useEffect } from "react";
 
 function CrudGOTY() {
-  // Estado para almacenar la lista de juegos nominados
-  const [juegos, setJuegos] = useState([]);
+  // Estado inicial: cargar desde localStorage directamente
+  const [juegos, setJuegos] = useState(() => {
+    const juegosGuardados = localStorage.getItem("goty-juegos");
+    return juegosGuardados ? JSON.parse(juegosGuardados) : [];
+  });
 
-  // Estado para manejar los datos del formulario (nombre y género)
+  // Estado para el formulario
   const [form, setForm] = useState({
     nombre: "",
     genero: ""
   });
 
-  // Estado para guardar el índice del juego que se está editando, o null si se está agregando uno nuevo
+  // Índice del juego que se está editando
   const [editarIndice, setEditarIndice] = useState(null);
 
-  // useEffect que carga los datos guardados en localStorage cuando el componente se monta
-  useEffect(() => {
-    const datosGuardados = localStorage.getItem("goty-juegos");
-    if (datosGuardados) {
-      setJuegos(JSON.parse(datosGuardados));
-    }
-  }, []);
-
-  // useEffect que guarda la lista actualizada en localStorage cada vez que cambia 'juegos'
+  // Guardar los cambios en localStorage cuando juegos cambia
   useEffect(() => {
     localStorage.setItem("goty-juegos", JSON.stringify(juegos));
   }, [juegos]);
 
-  // Maneja el cambio en los inputs del formulario
+  // Manejar cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Función para agregar un nuevo juego o actualizar uno existente
+  // Agregar nuevo juego o actualizar uno existente
   const handleAgregarActualizar = () => {
     const { nombre, genero } = form;
 
-    // Validación básica para evitar campos vacíos
-    if (!nombre || !genero) {
+    if (!nombre.trim() || !genero.trim()) {
       alert("Completa todos los campos");
       return;
     }
 
     if (editarIndice !== null) {
-      // Actualizar juego existente
-      const listaActualizada = [...juegos];
-      listaActualizada[editarIndice] = { ...form };
-      setJuegos(listaActualizada);
-      setEditarIndice(null);  // Salir del modo edición
+      // Editar juego existente
+      const juegosActualizados = [...juegos];
+      juegosActualizados[editarIndice] = { ...form };
+      setJuegos(juegosActualizados);
+      setEditarIndice(null);
     } else {
       // Agregar nuevo juego
-      setJuegos(prev => [...prev, form]);
+      setJuegos((prev) => [...prev, form]);
     }
 
     // Limpiar formulario
     setForm({ nombre: "", genero: "" });
   };
 
-  // Eliminar un juego de la lista por índice
+  // Eliminar juego
   const handleEliminar = (index) => {
-    const listaFiltrada = juegos.filter((_, i) => i !== index);
-    setJuegos(listaFiltrada);
+    const juegosFiltrados = juegos.filter((_, i) => i !== index);
+    setJuegos(juegosFiltrados);
 
-    // Si se estaba editando ese juego, cancelar edición y limpiar formulario
     if (editarIndice === index) {
-      setForm({ nombre: "", genero: "" });
       setEditarIndice(null);
+      setForm({ nombre: "", genero: "" });
     }
   };
 
-  // Poner el formulario en modo edición con los datos del juego seleccionado
+  // Editar juego
   const handleEditar = (index) => {
     setForm(juegos[index]);
     setEditarIndice(index);
@@ -80,8 +73,8 @@ function CrudGOTY() {
       <h2 style={{ textAlign: "center", color: "#00ffcc", marginBottom: "1em" }}>
         ¡Vota por tu nominado a GOTY!
       </h2>
+
       <div className="formulario-crud">
-        {/* Campo nombre del juego */}
         <input
           type="text"
           name="nombre"
@@ -89,8 +82,11 @@ function CrudGOTY() {
           value={form.nombre}
           onChange={handleChange}
         />
-        {/* Selección de género */}
-        <select name="genero" value={form.genero} onChange={handleChange}>
+        <select
+          name="genero"
+          value={form.genero}
+          onChange={handleChange}
+        >
           <option value="">Selecciona un género</option>
           <option value="Acción">Acción</option>
           <option value="Aventura">Aventura</option>
@@ -99,14 +95,11 @@ function CrudGOTY() {
           <option value="Estrategia">Estrategia</option>
           <option value="Otros">Otros</option>
         </select>
-        
-        {/* Botón que cambia texto según si se agrega o actualiza */}
         <button onClick={handleAgregarActualizar}>
           {editarIndice !== null ? "Actualizar" : "Agregar"}
         </button>
       </div>
 
-      {/* Lista de juegos con opciones para editar y eliminar */}
       <ul className="lista-juegos">
         {juegos.map((juego, index) => (
           <li key={index}>
